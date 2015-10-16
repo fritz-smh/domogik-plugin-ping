@@ -1,0 +1,51 @@
+.. _index:
+
+===========
+Plugin ping
+===========
+
+Purpose
+=======
+
+The ping plugin is used to check if some ip devices (computers, servers, smartphones, ...) are on or off. It can also be used to check internet connection by pinging a remote ip (free or google servers for example).
+
+Dependencies
+============
+
+You need to install python-nmap package to allow automatic devices detection: ::
+
+    $ sudo pip install python-nmap
+
+If you don't install it, the plugin will work, but there will be no automatic detection of alive ip devices.
+
+Plugin configuration
+====================
+
+There is no global configuration option for this plugin.
+
+Create the domogik devices
+==========================
+
+Domogik device type : ping.ping
+-------------------------------
+
+2 parameters are needed for a domogik device creation:
+
+===================== =========================== ======================================================================
+Key                   Type                        Description
+===================== =========================== ======================================================================
+device                string                      The ip address or name of the ip device. Example : 192.168.1.10
+--------------------- --------------------------- ----------------------------------------------------------------------
+interval              number                      The time in seconds between each ping 
+===================== =========================== ======================================================================
+
+Start the plugin
+================
+
+You can now start the plugin (start button) and use the created domogik devices.
+
+Set up your widgets on the user interface
+=========================================
+
+You can now place the widgets of your devices features on the user interface.
+

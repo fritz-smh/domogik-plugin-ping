@@ -1,0 +1,84 @@
+{
+    "products" : [ ],
+    "configuration": [],
+    "xpl_commands": {},   
+    "xpl_stats": {
+       "ping": {
+            "name": "ping",
+            "schema": "sensor.basic",
+            "parameters": {
+                    "static": [
+                        {
+                            "key": "type",
+                            "value": "input"
+                        }
+                    ],
+                    "device": [],
+                    "dynamic": [
+                        {
+                             "key": "current",
+                             "sensor": "ping",
+			     "ignore_values": ""
+                        }
+                    ]
+                }
+       }
+    },
+    "commands": {},
+    "sensors": {
+	"ping": {
+		"name": "Ping",
+                "data_type": "DT_Switch",
+                "conversion": "from_low_high_to_DT_Switch",
+                "incremental": false,
+                "timeout": 0,
+                "history": {
+                    "store": true,
+                    "duplicate": false,
+                    "max": 0,
+                    "expire": 0,
+                    "round_value": 0
+                }
+	}
+    },
+    "device_types": {
+        "ping.ping": {
+            "description": "Ping", 
+            "id": "ping.ping",
+            "name": "Ping",
+            "commands": [],
+            "sensors": ["ping"],
+            "parameters": [
+                {
+                    "key": "device",
+                    "xpl": true,
+                    "description": "The ip or name of the element you want to ping",
+                    "type": "string"
+                },
+                {
+                    "key": "interval",
+                    "xpl": false,
+                    "description": "Interval in seconds between 2 ping actions.",
+                    "type": "integer"
+                }
+            ]
+        }
+    }, 
+    "identity": {
+        "author": "Fritz",
+        "author_email": "fritz.smh at gmail.com,",
+        "tags": ["ping", "computer"],
+        "dependencies": [
+            {   
+                "id": "python-nmap (>=0.4.3)",
+                "type": "python"
+            }
+        ],
+        "description": "Monitor if some computers or any ip network device",
+        "domogik_min_version": "0.4.1", 
+        "name": "ping", 
+        "type": "plugin", 
+        "version": "1.0"
+    }, 
+    "json_version": 2
+}
