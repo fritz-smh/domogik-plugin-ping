@@ -70,7 +70,7 @@ class PingManager(XplPlugin):
             try:
                 interval = self.get_parameter(a_device, "interval")
                 address = self.get_parameter_for_feature(a_device, "xpl_stats", "ping", "device")
-                self.log.info("Launch thread to ping {0}. Address = {1}, interval = {2} seconds".format(a_device["name"], address, interval))
+                self.log.info(u"Launch thread to ping {0}. Address = {1}, interval = {2} seconds".format(a_device["name"], address, interval))
                 thr_name = "{0}".format(a_device['name'])
                 threads[thr_name] = threading.Thread(None, 
                                            Ping,
@@ -88,7 +88,7 @@ class PingManager(XplPlugin):
 
         ### Devices autodetection with nmap
         try:
-            self.log.info("Launch thread For devices autodetection")
+            self.log.info(u"Launch thread For devices autodetection")
             thr_nmap = threading.Thread(None, 
                                        Nmap,
                                        "nmap",
@@ -113,7 +113,7 @@ class PingManager(XplPlugin):
         msg.set_schema("sensor.basic")
         for element in data:
             msg.add_data({element : data[element]})
-        self.log.debug("Send xpl message...")
+        self.log.debug(u"Send xpl message...")
         self.log.debug(msg)
         self.myxpl.send(msg)
 

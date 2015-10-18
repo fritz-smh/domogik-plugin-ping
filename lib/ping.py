@@ -76,12 +76,12 @@ class Ping:
             ret = subprocess.call(cmd, shell = True)
             xpl_type = "xpl-stat"
             if ret == 0:
-                self.log.debug("{0} is alive".format(self.address))
+                self.log.debug(u"{0} is alive".format(self.address))
                 self.callback(xpl_type, {"type" : "input", "device" : self.address, "current" : "high"})
             else:
-                self.log.debug("{0} is NOT alive".format(self.address))
+                self.log.debug(u"{0} is NOT alive".format(self.address))
                 self.callback(xpl_type, {"type" : "input", "device" : self.address, "current" : "low"})
-            self.log.debug("{0} : wait for {1} seconds".format(self.address, self.interval))
+            self.log.debug(u"{0} : wait for {1} seconds".format(self.address, self.interval))
             time.sleep(self.interval)
 
 
@@ -96,7 +96,7 @@ class Nmap:
             self.nm = nmap.PortScanner()
         except:
             self.nm = None
-            self.log.warning("Unable to create nmap port scanner. Please check that the package python-nmap is installed. IP devices autodetection will be skipped!")
+            self.log.warning(u"Unable to create nmap port scanner. Please check that the package python-nmap is installed. IP devices autodetection will be skipped!")
         self.scan()
 
     def scan(self):
@@ -104,18 +104,18 @@ class Nmap:
             while not self._stop.isSet():
                 result = self.nm.scan(hosts='192.168.1.0/24', arguments='-n -sP')
                 try:
-                    self.log.debug("Result of nmap scan: ")
+                    self.log.debug(u"Result of nmap scan: ")
                     for host in result['scan']:
                         status = result['scan'][host]['status']['state']
-                        self.log.debug("{0} is {1}".format(host, status))
+                        self.log.debug(u"{0} is {1}".format(host, status))
                         try:
                             ipv4 = result['scan'][host]['addresses']['ipv4']
-                            self.log.debug("- ipv4 : {0}".format(ipv4))
+                            self.log.debug(u"- ipv4 : {0}".format(ipv4))
                         except KeyError:
                             pass
                         try:
                             vendor = result['scan'][host]['vendor']
-                            self.log.debug("- vendor : {0}".format(vendor))
+                            self.log.debug(u"- vendor : {0}".format(vendor))
                         except KeyError:
                             pass
 
@@ -137,7 +137,7 @@ class Nmap:
                 except KeyError:
                     # surely a nmap error :)
                     # skipping for this turn
-                    self.log.warning("Nmap : no result for the scan...")
+                    self.log.warning(u"Nmap : no result for the scan...")
                     pass
 
                 # sleep for 5 minutes
