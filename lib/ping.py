@@ -39,6 +39,7 @@ import time
 import traceback
 #from threading import Event
 import subprocess
+from domogik.common.utils import get_ip_for_interfaces
 
 try:
     import nmap
@@ -102,44 +103,49 @@ class Nmap:
     def scan(self):
         if self.nm != None:
             while not self._stop.isSet():
-                result = self.nm.scan(hosts='192.168.1.0/24', arguments='-n -sP')
-                try:
-                    self.log.debug(u"Result of nmap scan: ")
-                    for host in result['scan']:
-                        status = result['scan'][host]['status']['state']
-                        self.log.debug(u"{0} is {1}".format(host, status))
-                        try:
-                            ipv4 = result['scan'][host]['addresses']['ipv4']
-                            self.log.debug(u"- ipv4 : {0}".format(ipv4))
-                        except KeyError:
-                            pass
-                        try:
-                            vendor = result['scan'][host]['vendor']
-                            self.log.debug(u"- vendor : {0}".format(vendor))
-                        except KeyError:
-                            pass
-
-                        self.cb_device_detected({
-                            "device_type" : "ping.ping",
-                            "reference" : "",
-                            "global" : [],
-                            "xpl" : [],
-                            "xpl_commands" : {},
-                            "xpl_stats" : {
-                                "ping" : [
-                                    {
-                                        "key" : "device",
-                                        "value" : host
-                                    }
-                                ]
-                            }
-                        })
-                except KeyError:
-                    # surely a nmap error :)
-                    # skipping for this turn
-                    self.log.warning(u"Nmap : no result for the scan...")
-                    pass
-
+                self.log.debug(u"Result of nmap scan: ")
+                for int_ip in get_ip_for_interfaces():
+                    try:
+                        the_ip_tab = int_ip.split(".")
+                        if the_ip_tab[0] == "127":
+                            continue
+                        the_ip = "{0}.{1}.{2}.0".format(the_ip_tab[0], the_ip_tab[1], the_ip_tab[2])
+                        result = self.nm.scan(hosts='{0}/24'.format(the_ip), arguments='-n -sP')
+                        for host in result['scan']:
+                            status = result['scan'][host]['status']['state']
+                            self.log.debug(u"{0} is {1}".format(host, status))
+                            try:
+                                ipv4 = result['scan'][host]['addresses']['ipv4']
+                                self.log.debug(u"- ipv4 : {0}".format(ipv4))
+                            except KeyError:
+                                pass
+                            try:
+                                vendor = result['scan'][host]['vendor']
+                                self.log.debug(u"- vendor : {0}".format(vendor))
+                            except KeyError:
+                                pass
+    
+                            self.cb_device_detected({
+                                "device_type" : "ping.ping",
+                                "reference" : "",
+                                "global" : [],
+                                "xpl" : [],
+                                "xpl_commands" : {},
+                                "xpl_stats" : {
+                                    "ping" : [
+                                        {
+                                            "key" : "device",
+                                            "value" : host
+                                        }
+                                    ]
+                                }
+                            })
+                    except KeyError:
+                        # surely a nmap error :)
+                        # skipping for this turn
+                        self.log.warning(u"Nmap : no result for the scan...")
+                        pass
+    
                 # sleep for 5 minutes
                 time.sleep(5 * 60)
     
