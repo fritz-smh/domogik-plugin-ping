@@ -129,16 +129,14 @@ class Nmap:
                                 "device_type" : "ping.ping",
                                 "reference" : "",
                                 "global" : [],
-                                "xpl" : [],
+                                "xpl" : [
+                                    {
+                                        "key" : "device",
+                                        "value" : host
+                                    }
+                                ],
                                 "xpl_commands" : {},
-                                "xpl_stats" : {
-                                    "ping" : [
-                                        {
-                                            "key" : "device",
-                                            "value" : host
-                                        }
-                                    ]
-                                }
+                                "xpl_stats" : {}
                             })
                     except KeyError:
                         # surely a nmap error :)
