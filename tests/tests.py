@@ -124,7 +124,7 @@ if __name__ == "__main__":
             print("DEV={0}".format(dev))
             # fill in the params
             params["device_type"] = "ping.ping"
-            params["name"] = "test_device_ping_{0}".format(dev)
+            params["name"] = "test_device_ping_{0}_é".format(dev)
             params["reference"] = "reference"
             params["description"] = "description"
             # global params

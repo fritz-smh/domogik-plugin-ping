@@ -71,7 +71,7 @@ class PingManager(XplPlugin):
                 interval = self.get_parameter(a_device, "interval")
                 address = self.get_parameter_for_feature(a_device, "xpl_stats", "ping", "device")
                 self.log.info(u"Launch thread to ping {0}. Address = {1}, interval = {2} seconds".format(a_device["name"], address, interval))
-                thr_name = "{0}".format(a_device['name'])
+                thr_name = "dev_{0}".format(a_device['id'])
                 threads[thr_name] = threading.Thread(None, 
                                            Ping,
                                            thr_name,
